@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gilded.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,14 +8,17 @@ using System.Web.Http;
 
 namespace Gilded.Controllers
 {
+    [RoutePrefix("api/items")]
     public class ItemsController : ApiController
     {
+
         public IHttpActionResult Get()
         {
             throw new NotImplementedException();
         }
 
-        public IHttpActionResult Post(string name, string description, int price)
+        [HttpPost]
+        public IHttpActionResult Post(Item item)
         {
             throw new NotImplementedException();
         }
