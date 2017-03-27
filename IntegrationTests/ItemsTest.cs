@@ -15,7 +15,7 @@ namespace IntegrationTests
 {
     public class ItemsTest : IntegrationTestsBase
     {
-        private const string GetUrl = "http://localhost:56882/api/items";
+        private const string Url = "http://localhost:56882/api/items";
 
         private readonly Item TestItemOne = new Item() { Name = "Name",
             Description = "Description",
@@ -125,7 +125,6 @@ namespace IntegrationTests
                 var getRequest = new HttpRequestMessage
                 {
                     RequestUri = new Uri(GetUrl),
-                    Method = HttpMethod.Get
                 };
 
                 getRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

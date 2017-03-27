@@ -16,8 +16,8 @@ namespace Gilded.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpPost]
-        [Route("/balnces/{amount}")]
+        [HttpPut]
+        [Route("/balances/{amount}")]
         public IHttpActionResult AddBalance(int amount)
         {
             throw new NotImplementedException();
