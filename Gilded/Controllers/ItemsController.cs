@@ -14,14 +14,28 @@ namespace Gilded.Controllers
     public class ItemsController : ApiController
     {
         private readonly IItemRepository _itemsRepostory;
+
+        public ItemsController()
+        {
+            _itemsRepostory = null;
+        }
+
+        public ItemsController(IItemRepository itemRepository)
+        {
+            _itemsRepostory = itemRepository;
+        }
+
         public List<Item> Get()
         {
             return _itemsRepostory.GetItems();
         }
 
-        [HttpPost]
+        /*
+         * To update item simply post the same item
+         */
+        [HttpPut]
         [ApiKeyFilter(Roles="Admin")]
-        public HttpResponseMessage Post(Item item)
+        public HttpResponseMessage Put(Item item)
         {
             _itemsRepostory.CreateItem(item);
             return new HttpResponseMessage();

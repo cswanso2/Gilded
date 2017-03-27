@@ -1,0 +1,34 @@
+﻿using Gilded.Filters;
+using Gilded.Models;
+using Gilded.Repositories;
+using Moq;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace UnitTests
+{
+    public class ApiKeyFilterTests
+    {
+        private ApiKeyFilter _filter;
+        private Mock<IUserRepository> _mockUserRepository;
+
+        private const string ApiKey = "abc";
+
+        [SetUp]
+        public void SetUp()
+        {
+            _mockUserRepository = new Mock<IUserRepository>();
+            _filter = new ApiKeyFilter(_mockUserRepository.Object);
+        }
+
+        [Test]
+        public void UserFound()
+        {
+            _mockUserRepository.Setup(x => x.GetUser())
+        }
+    }
+}

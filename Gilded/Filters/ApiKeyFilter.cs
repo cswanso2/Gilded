@@ -10,13 +10,7 @@ namespace Gilded.Filters
 {
     public class ApiKeyFilter : AuthorizeAttribute
     {
-
-        public ApiKeyFilter(IUserRepository repository)
-        {
-            _userRepository = repository;
-        }
-
-        private readonly IUserRepository _userRepository;
+        private static readonly IUserRepository _userRepository = new UserRepository();
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {

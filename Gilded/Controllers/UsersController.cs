@@ -1,4 +1,5 @@
-﻿using Gilded.Filters;
+﻿using Gilded.Exceptions;
+using Gilded.Filters;
 using Gilded.Models;
 using Gilded.Repositories;
 using System;
@@ -14,25 +15,45 @@ namespace Gilded.Controllers
     public class UsersController : ApiController
     {
         private readonly IUserRepository _repository;
+        public UsersController(IUserRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public UsersController()
+        {
+            _repository = new UserRepository();
+        }
         [HttpPost]
         [Route("register")]
         public HttpResponseMessage Register([FromBody]string emailAddress)
         {
-            var apiKey = _repository.CreateUser(emailAddress);
-            var response =  new HttpResponseMessage(HttpStatusCode.Created);
-            response.Content = new StringContent(apiKey,
-                    Encoding.UTF8, "application/json");
-            return response;
+            try
+            {
+                var apiKey = _repository.CreateUser(emailAddress);
+                var response = new HttpResponseMessage(HttpStatusCode.Created);
+                response.Content = new StringContent(apiKey,
+                        Encoding.UTF8, "application/json");
+                return response;
+            }
+            catch(DuplicateUserException)
+            {
+                return new HttpResponseMessage(HttpStatusCode.Conflict);
+            }
+            catch(InvalidEmailException)
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
         }
 
         [HttpPut]
-        [Route("/balances/{amount}")]
+        [Route("balances/{amount}")]
         [ApiKeyFilter]
         public HttpResponseMessage AddBalance(int amount)
         {
             var user = ActionContext.Request.Properties["user"] as User;
             _repository.AddBalance(user.EmailAddress, amount);
-            throw new NotImplementedException();
+            return new HttpResponseMessage(HttpStatusCode.Accepted);
         }
     }
 }

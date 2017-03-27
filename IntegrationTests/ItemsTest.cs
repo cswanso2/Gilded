@@ -124,7 +124,7 @@ namespace IntegrationTests
 
                 var getRequest = new HttpRequestMessage
                 {
-                    RequestUri = new Uri(GetUrl),
+                    RequestUri = new Uri(Url),
                 };
 
                 getRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
