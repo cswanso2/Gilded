@@ -50,7 +50,7 @@ namespace UnitTests.Controller
         [TestCase("mikeabc.com")]
         public void RegisterBadEmail(string emailAddress)
         {
-            _mockRepository.Setup(x => x.CreateUser(emailAddress)).Throws<InvalidEmailException>();
+            _mockRepository.Setup(x => x.CreateUser(emailAddress)).Throws<FormatException>();
             var response = _userController.Register(emailAddress);
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -73,7 +73,7 @@ namespace UnitTests.Controller
             _userController.ActionContext.Request.Properties["user"] = _user;
             var response = _userController.AddBalance(balance);
             Assert.AreEqual(HttpStatusCode.Accepted, response.StatusCode);
-            _mockRepository.Verify(x => x.AddBalance(_user.EmailAddress, balance));
+            _mockRepository.Verify(x => x.AddBalance(_user.ApiKey, balance));
         }
     }
 }

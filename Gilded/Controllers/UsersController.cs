@@ -40,7 +40,7 @@ namespace Gilded.Controllers
             {
                 return new HttpResponseMessage(HttpStatusCode.Conflict);
             }
-            catch(InvalidEmailException)
+            catch(FormatException)
             {
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
@@ -52,7 +52,7 @@ namespace Gilded.Controllers
         public HttpResponseMessage AddBalance(int amount)
         {
             var user = ActionContext.Request.Properties["user"] as User;
-            _repository.AddBalance(user.EmailAddress, amount);
+            _repository.AddBalance(user.ApiKey, amount);
             return new HttpResponseMessage(HttpStatusCode.Accepted);
         }
     }

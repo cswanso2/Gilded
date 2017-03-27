@@ -50,7 +50,7 @@ namespace UnitTests.Managers
         {
             _itemRepository.Setup(x => x.GetItem(itemName)).Returns(_item);
             _purchaseManager.PurchaseItem(itemName, _user);
-            _userRepository.Verify(x => x.AddBalance(_user.EmailAddress, _item.Price * -1));
+            _userRepository.Verify(x => x.AddBalance(_user.ApiKey, _item.Price * -1));
             _itemRepository.Verify(x => x.ChangeInventory(itemName, -1));
         }
 

@@ -23,6 +23,6 @@ namespace Gilded.Repositories
         /*
          * Updates a balance for a user, based on their primary key email address. Can also decrement.
          */
-        void AddBalance(string emailAddress, int amountChanged);
+        void AddBalance(string apiKey, int amountChanged);
     }
 }

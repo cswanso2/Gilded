@@ -88,7 +88,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Exceptions\InsufficientFundsException.cs" />
     <Compile Include="Exceptions\DuplicateUserException.cs" />
-    <Compile Include="Exceptions\InvalidEmailException.cs" />
     <Compile Include="Exceptions\NoInventoryException.cs" />
     <Compile Include="Managers\PurchaseManager.cs" />
     <Compile Include="Repositories\IItemRepository.cs" />

@@ -32,7 +32,7 @@ namespace Gilded.Managers
                 if (item.Price > user.Balance)
                     throw new InsufficientFundsException();
                 _itemRepository.ChangeInventory(item.Name, -1);
-                _userRepository.AddBalance(user.EmailAddress, item.Price * -1);
+                _userRepository.AddBalance(user.ApiKey, item.Price * -1);
             }
         }
 

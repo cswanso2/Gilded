@@ -11,7 +11,7 @@ namespace Gilded.Filters
     public class ApiKeyFilter : AuthorizeAttribute
     {
         private static readonly IUserRepository _userRepository = new UserRepository();
-
+        private const string AdminRole = "admin";
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             if (AuthorizeRequest(actionContext))
@@ -28,6 +28,8 @@ namespace Gilded.Filters
                 var apiKey = actionContext.Request.Headers.Authorization.Parameter;
                 var user = _userRepository.GetUser(apiKey);
                 actionContext.Request.Properties["user"] = user;
+                if (Roles.Contains(AdminRole) && user.Role != AdminRole)
+                    return false;
                 return true;
             }
             //user with api key doesn't exist
