@@ -1,4 +1,6 @@
-﻿using Gilded.Models;
+﻿using Gilded.Filters;
+using Gilded.Models;
+using Gilded.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,21 +13,23 @@ namespace Gilded.Controllers
     [RoutePrefix("api/items")]
     public class ItemsController : ApiController
     {
-
-        public IHttpActionResult Get()
+        private readonly IItemRepository _itemsRepostory;
+        public List<Item> Get()
         {
-            throw new NotImplementedException();
+            return _itemsRepostory.GetItems();
         }
 
         [HttpPost]
-        public IHttpActionResult Post(Item item)
+        [ApiKeyFilter(Roles="Admin")]
+        public HttpResponseMessage Post(Item item)
         {
-            throw new NotImplementedException();
+            _itemsRepostory.CreateItem(item);
+            return new HttpResponseMessage();
         }
 
         [HttpPost]
-        [Route("items/{itemName}/users/{userName}")]
-        public IHttpActionResult PurchaseItem(string itemName, string userName)
+        [Route("items/{itemName}/users/")]
+        public HttpResponseMessage PurchaseItem(string itemName)
         {
             throw new NotImplementedException();
         }

@@ -55,7 +55,7 @@ namespace IntegrationTests
                     TestItemOne.Price);
                 var request = new HttpRequestMessage
                 {
-                    RequestUri = new Uri(GetUrl),
+                    RequestUri = new Uri(Url),
                     Method = HttpMethod.Post,
                     Content = new StringContent(stringContent,
                     Encoding.UTF8, "application/json")
@@ -69,7 +69,7 @@ namespace IntegrationTests
 
                 var getRequest = new HttpRequestMessage
                 {
-                    RequestUri = new Uri(GetUrl),
+                    RequestUri = new Uri(Url),
                     Method = HttpMethod.Get
                 };
 
@@ -106,7 +106,7 @@ namespace IntegrationTests
                     TestItemOne.Price);
                 var request = new HttpRequestMessage
                 {
-                    RequestUri = new Uri(GetUrl),
+                    RequestUri = new Uri(Url),
                     Method = HttpMethod.Post,
                     Content = new StringContent(stringContent,
                     Encoding.UTF8, "application/json")

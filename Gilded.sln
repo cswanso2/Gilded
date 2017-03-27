@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gilded", "Gilded\Gilded.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{FCC1AC1D-7DD1-4BDC-8EE6-FB613E499E4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{A32348CD-BDB8-4376-8424-2AE6AD9F443E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FCC1AC1D-7DD1-4BDC-8EE6-FB613E499E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCC1AC1D-7DD1-4BDC-8EE6-FB613E499E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCC1AC1D-7DD1-4BDC-8EE6-FB613E499E4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A32348CD-BDB8-4376-8424-2AE6AD9F443E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A32348CD-BDB8-4376-8424-2AE6AD9F443E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A32348CD-BDB8-4376-8424-2AE6AD9F443E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A32348CD-BDB8-4376-8424-2AE6AD9F443E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
