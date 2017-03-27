@@ -8,7 +8,8 @@ namespace Gilded.Models
     public class User
     {
         //will be unique identifier
-        public string UserName { get; set; }
+        public string EmailAddress { get; set; }
+        public string ApiKey { get; set; }
         public int Balance { get; set; }
     }
 }

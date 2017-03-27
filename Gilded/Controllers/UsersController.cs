@@ -11,21 +11,14 @@ namespace Gilded.Controllers
     {
         [HttpPost]
         [Route("register")]
-        public IHttpActionResult Register(string userName, string password)
+        public IHttpActionResult Register([FromBody]string emailAddress)
         {
             throw new NotImplementedException();
         }
 
         [HttpPost]
-        [Route("login")]
-        public IHttpActionResult Login(string userName, string password)
-        {
-            throw new NotImplementedException();
-        }
-
-        [HttpPost]
-        [Route("users/{itemName}/balnces/{amount}")]
-        public IHttpActionResult PurchaseItem(string userName, int balance)
+        [Route("/balnces/{amount}")]
+        public IHttpActionResult AddBalance(int amount)
         {
             throw new NotImplementedException();
         }

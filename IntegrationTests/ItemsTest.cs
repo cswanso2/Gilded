@@ -83,7 +83,61 @@ namespace IntegrationTests
                     Assert.AreEqual(TestItemOne.Name, firstItem.Name);
                     Assert.AreEqual(TestItemOne.Description, firstItem.Description);
                     Assert.AreEqual(TestItemOne.Price, firstItem.Price);
+                }
+            }
+        }
 
+        [Test]
+        public void GetItems()
+        {
+            using (var server = new HttpServer(_config))
+            {
+
+                var client = new HttpClient(server);
+                var content = new
+                {
+                    name = "bla",
+                    description = "aaa",
+                    price = 5
+                };
+                var stringContent = string.Format("{{\"Name\":\" {0} \", \"Description\":\"{1}\", \"Price\":{2}}}",
+                    TestItemOne.Name,
+                    TestItemOne.Description,
+                    TestItemOne.Price);
+                var request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri(GetUrl),
+                    Method = HttpMethod.Post,
+                    Content = new StringContent(stringContent,
+                    Encoding.UTF8, "application/json")
+                };
+
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var postResult = client.SendAsync(request).Result;
+
+                var stringContentTwo = string.Format("{{\"Name\":\" {0} \", \"Description\":\"{1}\", \"Price\":{2}}}",
+                    TestItemTwo.Name,
+                    TestItemTwo.Description,
+                    TestItemTwo.Price);
+
+                request.Content = new StringContent(stringContentTwo, Encoding.UTF8, "application/json");
+
+                var getRequest = new HttpRequestMessage
+                {
+                    RequestUri = new Uri(GetUrl),
+                    Method = HttpMethod.Get
+                };
+
+                getRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                using (var response = client.SendAsync(getRequest).Result)
+                {
+                    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+                    var values = response.Content.ReadAsAsync<List<Item>>().Result;
+                    Assert.AreEqual(2, values.Count);
+                    var firstItem = values[0];
+                    Assert.AreEqual(TestItemOne.Name, firstItem.Name);
+                    Assert.AreEqual(TestItemOne.Description, firstItem.Description);
+                    Assert.AreEqual(TestItemOne.Price, firstItem.Price);
                 }
             }
         }
