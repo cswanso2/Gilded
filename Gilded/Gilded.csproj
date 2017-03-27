@@ -86,8 +86,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Exceptions\InsufficientFundsException.cs" />
     <Compile Include="Exceptions\DuplicateUserException.cs" />
     <Compile Include="Exceptions\InvalidEmailException.cs" />
+    <Compile Include="Exceptions\NoInventoryException.cs" />
     <Compile Include="Repositories\IItemRepository.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />

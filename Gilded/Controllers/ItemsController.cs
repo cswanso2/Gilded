@@ -1,4 +1,6 @@
-﻿using Gilded.Filters;
+﻿using Gilded.Exceptions;
+using Gilded.Filters;
+using Gilded.Managers;
 using Gilded.Models;
 using Gilded.Repositories;
 using System;
@@ -14,16 +16,19 @@ namespace Gilded.Controllers
     public class ItemsController : ApiController
     {
         private readonly IItemRepository _itemsRepostory;
-
+        private readonly IPurchaseManager _purchaseManager;
         public ItemsController()
         {
             _itemsRepostory = null;
+            _purchaseManager = null;
         }
 
-        public ItemsController(IItemRepository itemRepository)
+        public ItemsController(IItemRepository itemRepository, IPurchaseManager purchaseManager)
         {
             _itemsRepostory = itemRepository;
+            _purchaseManager = purchaseManager;
         }
+
 
         public List<Item> Get()
         {
@@ -31,7 +36,7 @@ namespace Gilded.Controllers
         }
 
         /*
-         * To update item simply post the same item
+         * To update item simply put the same item
          */
         [HttpPut]
         [ApiKeyFilter(Roles="Admin")]
@@ -45,7 +50,20 @@ namespace Gilded.Controllers
         [Route("items/{itemName}/users/")]
         public HttpResponseMessage PurchaseItem(string itemName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = ActionContext.Request.Properties["user"] as User;
+                _purchaseManager.PurhcaseItem(itemName, user);
+                return new HttpResponseMessage(HttpStatusCode.Accepted);
+            }
+            catch(InsufficientFundsException)
+            {
+                return new HttpResponseMessage(HttpStatusCode.PaymentRequired);
+            }
+            catch (NoInventoryException)
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
         }
     }
 }
