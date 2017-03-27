@@ -53,7 +53,7 @@ namespace Gilded.Controllers
             try
             {
                 var user = ActionContext.Request.Properties["user"] as User;
-                _purchaseManager.PurhcaseItem(itemName, user);
+                _purchaseManager.PurchaseItem(itemName, user);
                 return new HttpResponseMessage(HttpStatusCode.Accepted);
             }
             catch(InsufficientFundsException)

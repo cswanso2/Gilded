@@ -12,7 +12,7 @@ namespace Gilded.Managers
         /*
          * Used to purchase an item
          */
-        void PurhcaseItem(string itemName, User user);
+        void PurchaseItem(string itemName, User user);
 
     }
 }

@@ -23,5 +23,7 @@ namespace Gilded.Repositories
          * Gets all items
          */
         List<Item> GetItems();
+
+        Item GetItem(string itemName);
     }
 }

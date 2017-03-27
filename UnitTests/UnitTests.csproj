@@ -67,6 +67,7 @@
     <Compile Include="Controller\ItemsControllerTests.cs" />
     <Compile Include="Controller\UserControllerTests.cs" />
     <Compile Include="Filters\ApiKeyFilterTests.cs" />
+    <Compile Include="Managers\PurchaseManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

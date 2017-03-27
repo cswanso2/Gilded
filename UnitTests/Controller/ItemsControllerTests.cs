@@ -72,7 +72,7 @@ namespace UnitTests.Controller
         {
             
             var response = _itemController.PurchaseItem(itemName);
-            _mockManager.Verify(x => x.PurhcaseItem(itemName, It.Is<User>(y => y.ApiKey == _user.ApiKey)));
+            _mockManager.Verify(x => x.PurchaseItem(itemName, It.Is<User>(y => y.ApiKey == _user.ApiKey)));
             Assert.AreEqual(HttpStatusCode.Accepted, response.StatusCode);
         }
 
@@ -80,7 +80,7 @@ namespace UnitTests.Controller
         [TestCase("test item")]
         public void PurhchaseItemInsufficientFunds(string itemName)
         {
-            _mockManager.Setup(x => x.PurhcaseItem(itemName, It.Is<User>(y => y.ApiKey == _user.ApiKey))).Throws<InsufficientFundsException>();
+            _mockManager.Setup(x => x.PurchaseItem(itemName, It.Is<User>(y => y.ApiKey == _user.ApiKey))).Throws<InsufficientFundsException>();
             _itemController.Request = new HttpRequestMessage();
             _itemController.ActionContext.Request.Properties["user"] = _user;
             var response = _itemController.PurchaseItem(itemName);
@@ -91,7 +91,7 @@ namespace UnitTests.Controller
         [TestCase("test item")]
         public void PurchaseItemNoInventory(string itemName)
         {
-            _mockManager.Setup(x => x.PurhcaseItem(itemName, It.Is<User>(y => y.ApiKey == _user.ApiKey))).Throws<NoInventoryException>();
+            _mockManager.Setup(x => x.PurchaseItem(itemName, It.Is<User>(y => y.ApiKey == _user.ApiKey))).Throws<NoInventoryException>();
             _itemController.Request = new HttpRequestMessage();
             _itemController.ActionContext.Request.Properties["user"] = _user;
             var response = _itemController.PurchaseItem(itemName);
