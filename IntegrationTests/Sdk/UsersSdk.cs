@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace IntegrationTests.Sdk
 {
@@ -20,22 +21,25 @@ namespace IntegrationTests.Sdk
         public HttpResponseMessage Register(string emailAddress)
         {
             var client = new HttpClient(_server);
-
-            var stringContent = string.Format("{{\"EmailAddress\":\"{0}\"}}",
-                    emailAddress);
             var request = new HttpRequestMessage
             {
-                RequestUri = new Uri(String.Format("{0}/register", Url)),
+                RequestUri = new Uri(String.Format("{0}/register?emailAddress={1}", Url, emailAddress)),
                 Method = HttpMethod.Post,
-                Content = new StringContent(stringContent,
-                Encoding.UTF8, "application/json"),
             };
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
             return client.SendAsync(request).Result;
+        }
+
+        public string GetApiKeyFromRegisterResponse(HttpResponseMessage response)
+        {
+            return response.Content.ReadAsStringAsync().Result;
         }
 
         public HttpResponseMessage IncreaseBalance(string apiKey, int balance)
         {
+            var client = new HttpClient(_server);
+
             var request = new HttpRequestMessage()
             {
                 RequestUri = new Uri(String.Format("{0}/balances/{1}", Url, balance)),
@@ -43,7 +47,6 @@ namespace IntegrationTests.Sdk
             };
             request.Headers.Add("Authorization", apiKey);
 
-            var client = new HttpClient(_server);
             return client.SendAsync(request).Result;
         }
 

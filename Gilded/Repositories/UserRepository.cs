@@ -39,7 +39,7 @@ namespace Gilded.Repositories
 
         public string CreateUser(string emailAddress)
         {
-               MailAddress m = new MailAddress(emailAddress); //validate email
+            MailAddress m = new MailAddress(emailAddress); //validate email
             if (_emailDictionaryUsers.ContainsKey(emailAddress))
                 throw new DuplicateUserException();
             var apikey = Guid.NewGuid().ToString();

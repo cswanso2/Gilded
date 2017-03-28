@@ -12,6 +12,7 @@ using System.Web.Http;
 
 namespace Gilded.Controllers
 {
+    [RoutePrefix("api/users")]
     public class UsersController : ApiController
     {
         private readonly IUserRepository _repository;
@@ -22,11 +23,11 @@ namespace Gilded.Controllers
 
         public UsersController()
         {
-            _repository = new UserRepository();
+            _repository = UserRepository.Get();
         }
         [HttpPost]
         [Route("register")]
-        public HttpResponseMessage Register([FromBody]string emailAddress)
+        public HttpResponseMessage Register(string emailAddress)
         {
             try
             {
