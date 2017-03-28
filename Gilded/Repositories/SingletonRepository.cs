@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Gilded.Repositories
+﻿namespace Gilded.Repositories
 {
     public abstract class SingletonRepository<T>
     where T : SingletonRepository<T>, new()

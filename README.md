@@ -1,6 +1,7 @@
 To start off I set out to create the endpoints required in the doc. I also created four extra endpoints to support them. IE registration and user balance. In addition item creation.
 
 I'll start off with the questions form the readme.
+
 	1. I chose to go with a Json data format. Pretty standard stuff, universal easy to read. I also made the  uri's in a restful manner. Including details about the object in the uri
 	where applicable. This request is requried For instance to create an item the request is
 		POST "http://localhost:56882/api/items"

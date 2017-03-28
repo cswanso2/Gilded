@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using Gilded.Models;
 using System.Net.Mail;
 using Gilded.Exceptions;
