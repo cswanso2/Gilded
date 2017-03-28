@@ -52,9 +52,26 @@ namespace UnitTests.Controller
         [Test]
         public void CreateItem()
         {
-            var response = _itemController.Put(_item);
+            var response = _itemController.Post(_item);
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
             _mockRepository.Verify(x => x.CreateItem(It.Is<Item>(y => y.Name == _item.Name)));
+        }
+
+        [Test]
+        public void CreateItemDuplicate()
+        {
+            _mockRepository.Setup(x => x.CreateItem(It.Is<Item>(y => y.Name == _item.Name))).Throws<ArgumentException>();
+            var response = _itemController.Post(_item);
+            Assert.AreEqual(HttpStatusCode.Conflict, response.StatusCode);
+        }
+
+        [Test]
+        [TestCase("test item")]
+        public void UpdateInventoryNoItem(string itemName)
+        {
+            _mockRepository.Setup(x => x.ChangeInventory(itemName, It.IsAny<int>())).Throws<NoInventoryException>();
+            var response = _itemController.UpdateInventory(itemName, 4);
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Test]
@@ -97,5 +114,7 @@ namespace UnitTests.Controller
             var response = _itemController.PurchaseItem(itemName);
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
         }
+
+        
     }
 }

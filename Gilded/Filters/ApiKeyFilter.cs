@@ -11,7 +11,7 @@ namespace Gilded.Filters
     public class ApiKeyFilter : AuthorizeAttribute
     {
         private static readonly IUserRepository _userRepository = UserRepository.Get();
-        private const string AdminRole = "admin";
+        private const string AdminRole = "Admin";
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             if (AuthorizeRequest(actionContext))

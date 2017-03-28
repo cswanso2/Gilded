@@ -25,7 +25,7 @@ namespace Gilded.Repositories
                 ApiKey = "adminapikey",
                 EmailAddress = "cswanso21@gmail.com",
                 Balance = 0,
-                Role = "admin"
+                Role = "Admin"
             };
             _apiKeyDictionary.Add(adminUser.ApiKey, adminUser);
             _apiKeyDictionary.Add(adminUser.EmailAddress, adminUser);
@@ -39,6 +39,7 @@ namespace Gilded.Repositories
 
         public string CreateUser(string emailAddress)
         {
+            emailAddress = emailAddress.ToLower();
             MailAddress m = new MailAddress(emailAddress); //validate email
             if (_emailDictionaryUsers.ContainsKey(emailAddress))
                 throw new DuplicateUserException();

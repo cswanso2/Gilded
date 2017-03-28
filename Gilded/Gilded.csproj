@@ -90,6 +90,7 @@
     <Compile Include="Exceptions\DuplicateUserException.cs" />
     <Compile Include="Exceptions\NoInventoryException.cs" />
     <Compile Include="Managers\PurchaseManager.cs" />
+    <Compile Include="Models\UserRegistration.cs" />
     <Compile Include="Repositories\IItemRepository.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />

@@ -29,7 +29,7 @@ namespace IntegrationTests.Sdk
             var request = new HttpRequestMessage
             {
                 RequestUri = new Uri(Url),
-                Method = HttpMethod.Put,
+                Method = HttpMethod.Post,
                 Content = new StringContent(stringContent,
                 Encoding.UTF8, "application/json"),
             };
@@ -43,9 +43,10 @@ namespace IntegrationTests.Sdk
 
         public HttpResponseMessage IncreaseInventory(string name, int amount, string apiKey)
         {
+
             var request = new HttpRequestMessage()
             {
-                RequestUri = new Uri(String.Format("{0}/{1}/inventory/{2}", Url, name, amount)),
+                RequestUri = new Uri(String.Format("{0}/{1}/inventories/{2}", Url, name, amount)),
                 Method = HttpMethod.Put
             };
 
@@ -67,6 +68,22 @@ namespace IntegrationTests.Sdk
             getRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var client = new HttpClient(_server);
             return client.SendAsync(getRequest).Result;
+        }
+
+        public HttpResponseMessage PurchaseItem(string itemName, string apiKey=null)
+        {
+            var request = new HttpRequestMessage
+            {
+                RequestUri = new Uri(String.Format("{0}/{1}/purchases", Url, itemName)),
+                Method = HttpMethod.Post
+            };
+
+            if(apiKey != null)
+                request.Headers.Add("Authorization", apiKey);
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var client = new HttpClient(_server);
+            return client.SendAsync(request).Result;
         }
     }
 }

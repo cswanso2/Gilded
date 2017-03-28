@@ -21,19 +21,20 @@ namespace Gilded.Controllers
             _repository = repository;
         }
 
-        public UsersController()
+        public UsersController( )
         {
             _repository = UserRepository.Get();
         }
+
         [HttpPost]
-        [Route("register")]
-        public HttpResponseMessage Register(string emailAddress)
+        public HttpResponseMessage Register([FromBody] UserRegistration request)
         {
             try
             {
-                var apiKey = _repository.CreateUser(emailAddress);
+                var apiKey = _repository.CreateUser(request.EmailAddress);
                 var response = new HttpResponseMessage(HttpStatusCode.Created);
-                response.Content = new StringContent(apiKey,
+                var jsonString = string.Format("{{ \"ApiKey\": \"{0}\"}}", apiKey);
+                response.Content = new StringContent(jsonString,
                         Encoding.UTF8, "application/json");
                 return response;
             }

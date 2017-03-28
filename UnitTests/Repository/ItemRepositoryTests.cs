@@ -50,9 +50,16 @@ namespace UnitTests.Repository
         }
 
         [Test]
+        public void CreateTwice()
+        {
+            _itemRepository.CreateItem(_testItem);
+            Assert.Throws<ArgumentException>(() => _itemRepository.CreateItem(_testItem));
+        }
+
+        [Test]
         public void NoInventory()
         {
-            Assert.Throws<KeyNotFoundException>(() => _itemRepository.GetItem(_testItem.Name));
+            Assert.Throws<NoInventoryException>(() => _itemRepository.GetItem(_testItem.Name));
         }
 
         [Test]

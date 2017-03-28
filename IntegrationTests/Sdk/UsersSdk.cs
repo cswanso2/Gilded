@@ -21,10 +21,14 @@ namespace IntegrationTests.Sdk
         public HttpResponseMessage Register(string emailAddress)
         {
             var client = new HttpClient(_server);
+            var stringContent = string.Format("{{\"EmailAddress\":\"{0}\"}}",
+                    emailAddress);
             var request = new HttpRequestMessage
             {
-                RequestUri = new Uri(String.Format("{0}/register?emailAddress={1}", Url, emailAddress)),
+                RequestUri = new Uri(String.Format("{0}", Url, emailAddress)),
                 Method = HttpMethod.Post,
+                Content = new StringContent(stringContent,
+                Encoding.UTF8, "application/json")
             };
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -33,7 +37,10 @@ namespace IntegrationTests.Sdk
 
         public string GetApiKeyFromRegisterResponse(HttpResponseMessage response)
         {
-            return response.Content.ReadAsStringAsync().Result;
+            string data = response.Content.ReadAsStringAsync().Result;
+            JavaScriptSerializer JSserializer = new JavaScriptSerializer();
+            var value = JSserializer.Deserialize<dynamic>(data);
+            return  value["ApiKey"];
         }
 
         public HttpResponseMessage IncreaseBalance(string apiKey, int balance)

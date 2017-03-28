@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace UnitTests.Controller
 {
@@ -40,8 +41,11 @@ namespace UnitTests.Controller
         public void Register(string emailAddress)
         {
             _mockRepository.Setup(x => x.CreateUser(emailAddress)).Returns(ApiKey);
-            var response = _userController.Register(emailAddress);
-            Assert.AreEqual(ApiKey, response.Content.ReadAsStringAsync().Result);
+            var response = _userController.Register(new UserRegistration { EmailAddress = emailAddress });
+            string data = response.Content.ReadAsStringAsync().Result;
+            JavaScriptSerializer JSserializer = new JavaScriptSerializer();
+            var apiKey = JSserializer.Deserialize<dynamic>(data)["ApiKey"];
+            Assert.AreEqual(ApiKey, apiKey);
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
             _mockRepository.Verify(x => x.CreateUser(emailAddress));
         }
@@ -51,7 +55,7 @@ namespace UnitTests.Controller
         public void RegisterBadEmail(string emailAddress)
         {
             _mockRepository.Setup(x => x.CreateUser(emailAddress)).Throws<FormatException>();
-            var response = _userController.Register(emailAddress);
+            var response = _userController.Register(new UserRegistration { EmailAddress = emailAddress });
             Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
@@ -60,7 +64,7 @@ namespace UnitTests.Controller
         public void DuplicateUser(string emailAddress)
         {
             _mockRepository.Setup(x => x.CreateUser(emailAddress)).Throws<DuplicateUserException>();
-            var response = _userController.Register(emailAddress);
+            var response = _userController.Register(new UserRegistration { EmailAddress = emailAddress });
             Assert.AreEqual(HttpStatusCode.Conflict, response.StatusCode);
         }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Gilded.Models;
+﻿using Gilded.Models;
 using Gilded.Repositories;
 using Gilded.Exceptions;
 
@@ -17,7 +13,7 @@ namespace Gilded.Managers
          * IE user buys two items at once. Or item with one left gets purchased twice.
          * I took a bit of the easy way out and am only allowing one user to purchase a item at time
          */
-        private readonly object _lock = new object();
+        private static object _lock = new object();
         public PurchaseManager(IItemRepository itemRepository, IUserRepository userRepository)
         {
             _itemRepository = itemRepository;

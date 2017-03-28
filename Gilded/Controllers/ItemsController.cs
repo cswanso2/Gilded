@@ -35,28 +35,40 @@ namespace Gilded.Controllers
             return _itemsRepostory.GetItems();
         }
 
-        /*
-         * To update item simply put the same item
-         */
-        [HttpPut]
+        [HttpPost]
         [ApiKeyFilter(Roles="Admin")]
-        public HttpResponseMessage Put(Item item)
+        public HttpResponseMessage Post(Item item)
         {
-            _itemsRepostory.CreateItem(item);
+            try
+            {
+                _itemsRepostory.CreateItem(item);
+            }
+            catch(ArgumentException)
+            {
+                return new HttpResponseMessage(HttpStatusCode.Conflict);
+            }
             return new HttpResponseMessage(HttpStatusCode.Created);
         }
 
         [HttpPut]
         [ApiKeyFilter(Roles = "Admin")]
-        [Route("{itemName}/inventory/{numberOfNewItems}")]
+        [Route("{itemName}/inventories/{numberOfNewItems}")]
         public HttpResponseMessage UpdateInventory(string itemName, int numberOfNewItems)
         {
-            _itemsRepostory.ChangeInventory(itemName, numberOfNewItems);
+            try
+            {
+                _itemsRepostory.ChangeInventory(itemName, numberOfNewItems);
+            }
+            catch(NoInventoryException)
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
             return new HttpResponseMessage(HttpStatusCode.Accepted);
         }
 
         [HttpPost]
-        [Route("{itemName}/users/")]
+        [Route("{itemName}/purchases/")]
+        [ApiKeyFilter]
         public HttpResponseMessage PurchaseItem(string itemName)
         {
             try

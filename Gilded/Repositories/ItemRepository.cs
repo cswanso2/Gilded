@@ -35,6 +35,8 @@ namespace Gilded.Repositories
 
         public Item GetItem(string itemName)
         {
+            if (!_inventory.ContainsKey(itemName))
+                throw new NoInventoryException();
             var itemInventory = _inventory[itemName];
             if (itemInventory.InventoryAmount > 0)
                 return itemInventory.Item;
