@@ -10,7 +10,7 @@ namespace Gilded.Filters
 {
     public class ApiKeyFilter : AuthorizeAttribute
     {
-        private static readonly IUserRepository _userRepository = new UserRepository();
+        private static readonly IUserRepository _userRepository = UserRepository.Get();
         private const string AdminRole = "admin";
         public override void OnAuthorization(HttpActionContext actionContext)
         {
@@ -25,7 +25,9 @@ namespace Gilded.Filters
         {
             try
             {
-                var apiKey = actionContext.Request.Headers.Authorization.Parameter;
+                if (actionContext.Request.Headers.Authorization == null)
+                    return false;
+                var apiKey = actionContext.Request.Headers.Authorization.Scheme;
                 var user = _userRepository.GetUser(apiKey);
                 actionContext.Request.Properties["user"] = user;
                 if (Roles.Contains(AdminRole) && user.Role != AdminRole)
@@ -37,6 +39,7 @@ namespace Gilded.Filters
             {
                 return false;
             }
+
         }
 
     }

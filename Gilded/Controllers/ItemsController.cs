@@ -19,8 +19,8 @@ namespace Gilded.Controllers
         private readonly IPurchaseManager _purchaseManager;
         public ItemsController()
         {
-            _itemsRepostory = null;
-            _purchaseManager = null;
+            _itemsRepostory = ItemRepository.Get();
+            _purchaseManager = new PurchaseManager(ItemRepository.Get(), UserRepository.Get());
         }
 
         public ItemsController(IItemRepository itemRepository, IPurchaseManager purchaseManager)
@@ -43,11 +43,20 @@ namespace Gilded.Controllers
         public HttpResponseMessage Put(Item item)
         {
             _itemsRepostory.CreateItem(item);
-            return new HttpResponseMessage();
+            return new HttpResponseMessage(HttpStatusCode.Created);
+        }
+
+        [HttpPut]
+        [ApiKeyFilter(Roles = "Admin")]
+        [Route("{itemName}/inventory/{numberOfNewItems}")]
+        public HttpResponseMessage UpdateInventory(string itemName, int numberOfNewItems)
+        {
+            _itemsRepostory.ChangeInventory(itemName, numberOfNewItems);
+            return new HttpResponseMessage(HttpStatusCode.Accepted);
         }
 
         [HttpPost]
-        [Route("items/{itemName}/users/")]
+        [Route("{itemName}/users/")]
         public HttpResponseMessage PurchaseItem(string itemName)
         {
             try

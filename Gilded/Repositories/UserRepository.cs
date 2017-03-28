@@ -11,13 +11,13 @@ namespace Gilded.Repositories
     /*
      * Not dealing with concurency issues in here, assuming they would be handled by database.
      */
-    public class UserRepository : IUserRepository
+    public class UserRepository : SingletonRepository<UserRepository>, IUserRepository
     {
         private const string UserRole = "user";
-        private static Dictionary<string, User> _apiKeyDictionary = new Dictionary<string, User>();
+        private Dictionary<string, User> _apiKeyDictionary = new Dictionary<string, User>();
 
-        private static Dictionary<string, User> _emailDictionaryUsers = new Dictionary<string, User>();
-        static UserRepository()
+        private Dictionary<string, User> _emailDictionaryUsers = new Dictionary<string, User>();
+        public UserRepository()
         {
             //a bit hacky.
             var adminUser = new User
@@ -28,12 +28,12 @@ namespace Gilded.Repositories
                 Role = "admin"
             };
             _apiKeyDictionary.Add(adminUser.ApiKey, adminUser);
-            _emailDictionaryUsers.Add(adminUser.EmailAddress, adminUser);
+            _apiKeyDictionary.Add(adminUser.EmailAddress, adminUser);
         }
 
         public void AddBalance(string apiKey, int amountChanged)
         {
-            var user = _emailDictionaryUsers[apiKey];
+            var user = _apiKeyDictionary[apiKey];
             user.Balance += amountChanged;
         }
 

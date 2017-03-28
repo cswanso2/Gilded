@@ -50,7 +50,7 @@ namespace UnitTests.Controller
         }
 
         [Test]
-        public void CreateItem(string emailAddress)
+        public void CreateItem()
         {
             var response = _itemController.Put(_item);
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
@@ -58,7 +58,7 @@ namespace UnitTests.Controller
         }
 
         [Test]
-        public void GetItems(string emailAddress)
+        public void GetItems()
         {
             _mockRepository.Setup(x => x.GetItems()).Returns(new List<Item>() { _item });
             var response = _itemController.Get();

@@ -21,7 +21,8 @@ namespace UnitTests.Repository
         [SetUp]
         public void Setup()
         {
-            _userRepository = new UserRepository();
+            UserRepository.Clear();
+            _userRepository = UserRepository.Get();
         }
 
         [Test]
@@ -54,7 +55,6 @@ namespace UnitTests.Repository
         [TestCase("mikemail.com")]
         public void InvalidEmailAddress(string emailAddress)
         {
-            var apiKey = _userRepository.CreateUser(emailAddress);
             Assert.Throws<FormatException>(() => _userRepository.CreateUser(emailAddress));
         }
 
